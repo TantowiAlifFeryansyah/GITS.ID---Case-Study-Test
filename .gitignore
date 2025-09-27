@@ -8,7 +8,6 @@ pnpm-lock.yaml
 
 # Env & secrets
 .env
-.env.*
 
 # Build & coverage
 dist/
