@@ -1,0 +1,25 @@
+# Node
+node_modules/
+npm-debug.log*
+yarn-error.log
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Env & secrets
+.env
+.env.*
+
+# Build & coverage
+dist/
+coverage/
+
+# OS / Editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Misc
+.tmp/
+.cache/

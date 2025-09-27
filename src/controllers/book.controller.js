@@ -1,0 +1,8 @@
+
+const { Book, Author, Publisher } = require('../models');
+async function list(req, res, next){ try{ const rows = await Book.findAll({ include: [{ model: Author, as: 'author' }, { model: Publisher, as: 'publisher' }] }); res.json(rows);} catch(e){ next(e);} }
+async function create(req, res, next){ try{ const { authorId, publisherId } = req.body; const a = await Author.findByPk(authorId); if(!a) return res.status(400).json({error:'authorId invalid'}); const p = await Publisher.findByPk(publisherId); if(!p) return res.status(400).json({error:'publisherId invalid'}); const row = await Book.create(req.body); res.status(201).json(row);} catch(e){ next(e);} }
+async function getById(req, res, next){ try{ const row = await Book.findByPk(req.params.id, { include: [{ model: Author, as: 'author' }, { model: Publisher, as: 'publisher' }] }); if(!row) return res.status(404).json({error:'Not found'}); res.json(row);} catch(e){ next(e);} }
+async function update(req, res, next){ try{ const row = await Book.findByPk(req.params.id); if(!row) return res.status(404).json({error:'Not found'}); if(req.body.authorId){ const a = await Author.findByPk(req.body.authorId); if(!a) return res.status(400).json({error:'authorId invalid'});} if(req.body.publisherId){ const p = await Publisher.findByPk(req.body.publisherId); if(!p) return res.status(400).json({error:'publisherId invalid'});} await row.update(req.body); res.json(row);} catch(e){ next(e);} }
+async function remove(req, res, next){ try{ const row = await Book.findByPk(req.params.id); if(!row) return res.status(404).json({error:'Not found'}); await row.destroy(); res.status(204).end();} catch(e){ next(e);} }
+module.exports = { list, create, getById, update, remove };

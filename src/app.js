@@ -1,0 +1,21 @@
+
+const express = require('express');
+const morgan = require('morgan');
+const cors = require('cors');
+const authRoutes = require('./routes/auth.routes');
+const authorRoutes = require('./routes/author.routes');
+const publisherRoutes = require('./routes/publisher.routes');
+const bookRoutes = require('./routes/book.routes');
+const { notFound, errorHandler } = require('./middleware/errors');
+const app = express();
+app.use(cors());
+app.use(express.json());
+app.use(morgan('dev'));
+app.get('/', (req, res) => res.json({message:'OK'}));
+app.use('/api/v1/auth', authRoutes);
+app.use('/api/v1/authors', authorRoutes);
+app.use('/api/v1/publishers', publisherRoutes);
+app.use('/api/v1/books', bookRoutes);
+app.use(notFound);
+app.use(errorHandler);
+module.exports = app;
